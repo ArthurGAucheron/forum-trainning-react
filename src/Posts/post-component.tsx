@@ -7,12 +7,13 @@ import {
     CardContent,
     CardHeader,
     CardMedia,
-    Chip,
+    Chip, ChipPropsColorOverrides,
     Grid,
     IconButton
 } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
+import {OverridableStringUnion} from "@mui/types";
 
 interface IPostComponentProps{
     vote : () => void;
@@ -23,7 +24,21 @@ interface IPostComponentProps{
 
 function PostComponent(props : IPostComponentProps){
 
+    type ChipColor = OverridableStringUnion<'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning',ChipPropsColorOverrides>;
+
     const {post,unVote,deletePost,vote} = props;
+    function getColorByVote(vote : number) : ChipColor {
+        if (vote >= 30){
+            return 'success';
+        }else if ( vote < 30  && vote >= 10 ){
+            return 'warning';
+        }else if ( vote < 10 ){
+            return 'error';
+        }else{
+            return 'default';
+        }
+
+    }
 
     return (
             <Card>
@@ -57,7 +72,7 @@ function PostComponent(props : IPostComponentProps){
                             <Button onClick={unVote} size="small">Unvote</Button>
                         </Grid>
                         <Grid item>
-                            <Chip label={post.voteCount} color="success" />
+                            <Chip label={post.voteCount} color={getColorByVote(post.voteCount)} />
                         </Grid>
                     </Grid>
                 </CardActions>

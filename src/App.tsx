@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
-import ListPosts from "./Posts/post-list-component";
 import {Provider} from "react-redux";
 import {store} from "./Store/store";
+import Posts from "./Posts/post-list-component";
+import Header from "./Header/header-component";
 
 function App() {
   return (
       <Provider store={store}>
-          <>
-              <ListPosts/>
-          </>
+          <Header/>
+          <Posts/>
       </Provider>
   );
 }
